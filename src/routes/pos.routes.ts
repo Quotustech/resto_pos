@@ -16,7 +16,7 @@ router.route("/menu/:id")
     .delete(authenticateStore as any, deleteMenu as any);
 
 router.route('/order')
-    .post(authenticateStore as any, orderController.createOrderController as any)
+    .post(orderController.createOrderController as any)
 
 router.route('/order/:orderId')
     .patch(authenticateStore as any, orderController.updateOrderController as any);

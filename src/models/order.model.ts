@@ -4,9 +4,9 @@ const { Schema, model, Types } = mongoose;
 const OrderSchema = new Schema(
     {
         registration: { type: String, required: true },
-        storeId: { type: Types.ObjectId, ref: "Store", required: true },
+        storeId: { type: Number, required: true },
         orderId: { type: String, required: true, unique: true },
-        menuId: { type: Types.ObjectId, ref: "MenuWebhook", required: true },
+        menuId: [{ type: Types.ObjectId, ref: "MenuWebhook", required: true }],
 
         // order details
         orderStatus: {
