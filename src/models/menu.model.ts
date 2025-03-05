@@ -12,7 +12,8 @@ const MenuSchema = new mongoose.Schema(
     images: [{ type: String }],
     tags: [{ type: String }],
     category: { type: String },
-    storeId: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
+    // storeId: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
+    storeId: { type: Number, required: true },
   },
   { timestamps: true }
 );

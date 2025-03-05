@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+import { config } from "../config";
 
 export const authenticateStore = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(" ")[1]; // Expect "Bearer <token>"
@@ -11,7 +10,7 @@ export const authenticateStore = (req: Request, res: Response, next: NextFunctio
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { storeId: string };
+        const decoded = jwt.verify(token, config.JWT_SECRET as string) as { storeId: string };
         req.body.storeId = decoded.storeId; // Attach restaurantId to request body
         next();
     } catch (error) {

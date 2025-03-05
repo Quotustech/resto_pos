@@ -49,7 +49,7 @@ export const createMenu = async (menuData: any) => {
             images: newMenu.images,
             tags: newMenu.tags,
             category: newMenu.category,
-            storeId: newMenu.storeId,
+            storeId: storeId,
         },
         channelId: menuData.channelId,
         action: "create"

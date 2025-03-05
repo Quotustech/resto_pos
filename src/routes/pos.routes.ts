@@ -16,10 +16,10 @@ router.route("/menu/:id")
     .delete(authenticateStore as any, deleteMenu as any);
 
 router.route('/order')
-    .post(orderController.createOrderController as any)
+    .post(authenticateStore as any, orderController.createOrderController as any)
 
 router.route('/order/:orderId')
-    .patch(orderController.updateOrderController as any);
+    .patch(authenticateStore as any, orderController.updateOrderController as any);
 
 
 export default router;
