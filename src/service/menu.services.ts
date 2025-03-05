@@ -11,11 +11,6 @@ export const createMenu = async (menuData: any) => {
         throw { status: 400, message: "Required fields missing. Please provide name, price, minPrepTime, maxPrepTime, maxPossibleOrders, and storeId" };
     }
 
-    // Validate storeId format
-    if (!isValidObjectId(storeId)) {
-        throw { status: 400, message: "Invalid storeId format" };
-    }
-
     // Business validations
     if (minPrepTime > maxPrepTime) {
         throw { status: 400, message: "Minimum preparation time cannot be greater than maximum preparation time" };
