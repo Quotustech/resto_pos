@@ -15,3 +15,8 @@ export const updateMenu = async (id: string, updateData: any) => {
 export const deleteMenu = async (id: string) => {
     return await Menu.findByIdAndDelete(id);
 };
+
+// Get all menu items by store ID
+export const findMenusByStoreId = async (storeId: number) => {
+    return await Menu.find({ storeId });
+};

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as menuService from "../service/menu.services";
 import mongoose from "mongoose";
 
-export const createMenu = async (req: Request, res: Response) => {
+export const createMenuController = async (req: Request, res: Response) => {
     try {
         const menu = await menuService.createMenu(req.body);
         return res.status(201).json({
@@ -27,7 +27,7 @@ export const createMenu = async (req: Request, res: Response) => {
     }
 };
 
-export const updateMenu = async (req: Request, res: Response) => {
+export const updateMenuController = async (req: Request, res: Response) => {
     try {
         if (Object.keys(req.body).length === 0) {
             return res.status(400).json({ message: "No update data provided" });
@@ -56,7 +56,7 @@ export const updateMenu = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteMenu = async (req: Request, res: Response) => {
+export const deleteMenuController = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { channelId } = req.body;
@@ -74,5 +74,20 @@ export const deleteMenu = async (req: Request, res: Response) => {
             message: "Internal server error",
             error: error.message
         });
+    }
+};
+
+
+export const getAllMenuController = async (req: Request, res: Response) => {
+    try {
+        const storeId = req.body.storeId;
+        if (!storeId) {
+            throw { status: 400, message: "storeId is required" };
+        }
+        const menus = await menuService.getAllMenus(+storeId);
+        res.status(200).json({ success: true, message: "Menus found successfully", menus });
+    } catch (error: any) {
+        console.error("Error getting menus:", error.message);
+        res.status(error.status || 500).json({ error: error.message });
     }
 };

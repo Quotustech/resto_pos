@@ -113,3 +113,13 @@ export const deleteMenu = async (id: string, channelId: string) => {
 
     return deletedMenu;
 };
+
+
+// Get all menu items by store ID
+export const getAllMenus = async (storeId: number) => {
+    const menus = await menuRepository.findMenusByStoreId(storeId);
+    if (!menus || menus.length === 0) {
+        throw { status: 404, message: "Menus not found" };
+    }
+    return menus;
+};
