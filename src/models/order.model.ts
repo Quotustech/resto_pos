@@ -1,21 +1,28 @@
 import mongoose from "mongoose";
-const { Schema, model, Types } = mongoose;
+const { Schema, Types, model } = mongoose;
 
 const OrderSchema = new Schema(
     {
         registration: { type: String, required: true },
         storeId: { type: Number, required: true },
         orderId: { type: String, required: true, unique: true },
-        menuId: [{ type: Types.ObjectId, ref: "MenuWebhook", required: true }],
 
-        // order details
+        // Updated order details field:
+        orderDetails: [
+            {
+                menuId: { type: Types.ObjectId, required: true },
+                price: { type: Number, required: true },
+                quantity: { type: Number, required: true }
+            }
+        ],
+
+        // order status and summary details
         orderStatus: {
             type: String,
             enum: ["pending", "accept", "reject"],
             default: "pending"
         },
         totalAmount: { type: Number, required: true },
-        quantity: { type: Number, required: true },
         pickUpTime: { type: Date, required: true },
 
         // customer details
@@ -23,7 +30,7 @@ const OrderSchema = new Schema(
             name: { type: String, required: true, maxlength: 100 },
             phone: { type: String, required: true, maxlength: 20 },
             email: { type: String, maxlength: 100 }
-        },
+        }
     },
     { timestamps: true }
 );
