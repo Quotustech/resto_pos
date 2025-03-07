@@ -57,9 +57,9 @@ export const createMenu = async (menuData: any) => {
 // Update an existing menu item with validations and webhook trigger
 export const updateMenu = async (id: string, updateData: any) => {
     // If storeId is provided, validate its format (and do not update it)
-    if (updateData.storeId && !isValidObjectId(updateData.storeId)) {
-        throw { status: 400, message: "Invalid storeId format" };
-    }
+    // if (updateData.storeId && !isValidObjectId(updateData.storeId)) {
+    //     throw { status: 400, message: "Invalid storeId format" };
+    // }
     if (updateData.storeId) {
         delete updateData.storeId;
     }
