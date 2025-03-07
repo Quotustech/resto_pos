@@ -19,7 +19,7 @@ const OrderSchema = new Schema(
         // order status and summary details
         orderStatus: {
             type: String,
-            enum: ["pending", "accept", "reject"],
+            enum: ["pending", "accept", "reject", "preparing", "ready", "dispatched"],
             default: "pending"
         },
         totalAmount: { type: Number, required: true },
