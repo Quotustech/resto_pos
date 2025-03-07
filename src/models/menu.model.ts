@@ -12,7 +12,7 @@ const MenuSchema = new mongoose.Schema(
     images: [{ type: String }],
     tags: [{ type: String }],
     category: { type: String },
-    // storeId: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
+    dietry: { type: String },
     storeId: { type: Number, required: true },
   },
   { timestamps: true }
@@ -20,16 +20,3 @@ const MenuSchema = new mongoose.Schema(
 
 const Menu = mongoose.model("Menu", MenuSchema);
 export default Menu;
-
-
-
-
-// const MenuSchema = new mongoose.Schema({
-//   name: { type: String, required: true },
-//   description: { type: String },
-//   menuItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "MenuItem" }],
-//   comboMeals: [{ type: mongoose.Schema.Types.ObjectId, ref: "ComboMeal" }],
-//   condiments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Condiment" }],  // <-- Add this
-//   condimentGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "CondimentGroup" }],
-//   familyGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "FamilyGroup" }]
-// });
