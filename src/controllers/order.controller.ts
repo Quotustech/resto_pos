@@ -16,7 +16,7 @@ export const updateOrderController = async (req: Request, res: Response) => {
         const { orderId } = req.params;
         const updatedOrder = await orderService.updateOrderService(orderId as string, req.body);
         console.log("ORDER UPDATED", updatedOrder);
-        return res.status(200).json(updatedOrder);
+        return res.status(200).json({ message: "Order updated successfully", order: updatedOrder });
     } catch (error: any) {
         console.error("Error updating order:", error.message);
         return res.status(500).json({ message: "Internal server error" });
