@@ -5,7 +5,7 @@ export const createOrder = async (orderData: any) => {
 }
 
 export const updateOrder = async (orderId: string, orderData: any) => {
-    return await Order.findOneAndUpdate({ orderId }, { $set: orderData }, { new: true });
+    return await Order.findOneAndUpdate({ orderId }, { $set: orderData }, { new: true, lean: true });
 }
 
 

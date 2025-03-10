@@ -15,6 +15,7 @@ export const updateOrderController = async (req: Request, res: Response) => {
     try {
         const { orderId } = req.params;
         const updatedOrder = await orderService.updateOrderService(orderId as string, req.body);
+        console.log("ORDER UPDATED", updatedOrder);
         return res.status(200).json(updatedOrder);
     } catch (error: any) {
         console.error("Error updating order:", error.message);
