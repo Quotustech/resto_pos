@@ -4,13 +4,13 @@ const { Schema, Types, model } = mongoose;
 const OrderSchema = new Schema(
     {
         registration: { type: String, required: true },
-        storeId: { type: Number, required: true },
+        storeId: { type: Number, required: true, index: true },
         orderId: { type: String, required: true, unique: true },
 
         // Updated order details field:
         orderDetails: [
             {
-                menuId: { type: Types.ObjectId, required: true },
+                menuId: { type: Types.ObjectId, ref: "Menu", required: true },
                 price: { type: Number, required: true },
                 quantity: { type: Number, required: true }
             }

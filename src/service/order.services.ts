@@ -17,3 +17,7 @@ export const updateOrderService = async (orderId: string, orderData: any) => {
 
     return updatedOrder;
 }
+
+export const getOrdersSummaryService = async (storeId: number) => {
+    return await orderRepository.getAllOrdersOfStore(storeId);
+};

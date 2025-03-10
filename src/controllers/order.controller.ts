@@ -21,3 +21,14 @@ export const updateOrderController = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getOrdersSummaryService = async (req: Request, res: Response) => {
+    try {
+        const { storeId } = req.body;
+        const orders = await orderService.getOrdersSummaryService(+storeId);
+        res.status(200).json({ data: orders });
+    } catch (error: any) {
+        console.error("Error getting orders:", error.message);
+        res.status(500).json({ message: "Internal server error", error: error.message });        
+    }
+};

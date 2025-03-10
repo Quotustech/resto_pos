@@ -22,6 +22,7 @@ router.route("/menu/:id")
 // order routes
 router.route('/order')
     .post(orderController.createOrderController as any)
+    .get(authenticateStore as any, orderController.getOrdersSummaryService as any);
 
 router.route('/order/:orderId')
     .patch(authenticateStore as any, orderController.updateOrderController as any);
