@@ -16,7 +16,7 @@ router.route("/menu")
     .get(authenticateStore as any, menuControllers.getAllMenuController as any);
 
 router.route("/menu/:id")
-    .patch(authenticateStore as any, menuControllers.updateMenuController as any)
+    .put(authenticateStore as any, menuControllers.updateMenuController as any)
     .delete(authenticateStore as any, menuControllers.deleteMenuController as any);
 
 // order routes
