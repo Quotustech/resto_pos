@@ -5,9 +5,10 @@ export const createOrder = async (orderData: any) => {
 }
 
 export const updateOrder = async (orderId: string, orderData: any) => {
-    const result = await Order.findOneAndUpdate({ orderId }, { $set: orderData }, { new: true, lean: true });
-    console.log("ORDER UPDATED REPO: **************", result);
-    return result;
+    return await Order.findOneAndUpdate(
+        { orderId },
+        orderData,
+        { new: true, lean: true });
 }
 
 

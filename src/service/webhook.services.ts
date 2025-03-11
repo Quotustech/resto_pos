@@ -8,7 +8,7 @@ import { config } from "../config";
  * @param data Payload including channelId and action ("create", "update", or "delete")
  */
 const sendWebhook = async (
-    method: "post" | "patch" | "delete",
+    method: "post" | "patch" | "delete" | "put",
     url: string,
     data: any
 ): Promise<void> => {
@@ -46,5 +46,5 @@ export const sendDeletedMenuWebHook = async (menuData: any): Promise<void> => {
 };
 
 export const sendUpdatedOrderStatusToRestominder = async (orderData: any): Promise<void> => {
-    await sendWebhook("patch", config.RESTOMINDER_ORDER_WEBHOOK_URL as string, orderData);
+    await sendWebhook("put", config.RESTOMINDER_ORDER_WEBHOOK_URL as string, orderData);
 }
