@@ -25,7 +25,7 @@ router.route('/order')
     .get(authenticateStore as any, orderController.getOrdersSummaryService as any);
 
 router.route('/order/:orderId')
-    .put(authenticateStore as any, orderController.updateOrderController as any);
+    .patch(authenticateStore as any, orderController.updateOrderController as any);
 
 
 export default router;
