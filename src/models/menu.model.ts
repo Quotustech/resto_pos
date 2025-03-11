@@ -12,7 +12,7 @@ const MenuSchema = new mongoose.Schema(
     images: [{ type: String }],
     tags: [{ type: String }],
     category: { type: String },
-    dietry: { type: String },
+    dietary: { type: String },
     storeId: { type: Number, required: true },
   },
   { timestamps: true }
