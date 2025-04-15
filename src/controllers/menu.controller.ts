@@ -85,7 +85,12 @@ export const getAllMenuController = async (req: Request, res: Response) => {
             throw { status: 400, message: "storeId is required" };
         }
         const menus = await menuService.getAllMenus(+storeId);
-        res.status(200).json({ success: true, message: "Menus found successfully", menus });
+
+        if (!menus || menus.length === 0) {
+            return res.status(201).json({ success: false, message: "No menus found" });
+        }
+
+        return res.status(200).json({ success: true, message: "Menus found successfully", menus });
     } catch (error: any) {
         console.error("Error getting menus:", error.message);
         res.status(error.status || 500).json({ error: error.message });
