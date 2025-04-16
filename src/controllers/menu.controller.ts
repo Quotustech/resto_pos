@@ -87,7 +87,7 @@ export const getAllMenuController = async (req: Request, res: Response) => {
         const menus = await menuService.getAllMenus(+storeId);
 
         if (!menus || menus.length === 0) {
-            return res.status(201).json({ success: false, message: "No menus found", data: [] });
+            return res.status(201).json({ success: true, message: "No menus found", data: [] });
         }
 
         return res.status(200).json({ success: true, message: "Menus found successfully", menus });
