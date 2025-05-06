@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 
 export const createMenuController = async (req: Request, res: Response) => {
     try {
-        const menu = await menuService.createMenu(req.body);
+        // Extract files from request
+        const files = req.files as Express.Multer.File[] | undefined;
+
+        const menu = await menuService.createMenu(req.body, files);
+
         return res.status(201).json({
             message: "Menu item created successfully",
             menu

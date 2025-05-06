@@ -3,6 +3,7 @@ import * as menuControllers from "../controllers/menu.controller";
 import * as authControllers from "../controllers/store.controller";
 import * as orderController from "../controllers/order.controller";
 import { authenticateStore } from "../middleware/pos.middleware";
+import { handleUploadErrors, uploadImage } from "../middleware/upload.middleware";
 
 const router = express.Router();
 
@@ -12,7 +13,12 @@ router.route("/login").post(authControllers.loginRestaurant as any);
 
 // menu routes
 router.route("/menu")
-    .post(authenticateStore as any, menuControllers.createMenuController as any)
+    .post(
+        uploadImage as any,
+        authenticateStore as any, 
+        handleUploadErrors as any,
+        menuControllers.createMenuController as any
+    )
     .get(authenticateStore as any, menuControllers.getAllMenuController as any);
 
 router.route("/menu/:id")

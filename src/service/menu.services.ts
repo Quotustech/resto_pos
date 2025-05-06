@@ -1,23 +1,18 @@
 import { isValidObjectId } from "mongoose";
 import * as menuRepository from "../repository/menu.repository";
 import * as webhookService from "../service/webhook.services";
+import { uploadMultipleImages } from "../config/cloudinary.config";
+import { validateMenuRequest } from "../validator/validate";
+import { uploadImages } from "./upload.services";
+import { generatePayloadForWebhook } from "../utils/generatePayload";
 
 // Create a new menu item with validations and webhook trigger
-export const createMenu = async (menuData: any) => {
-    const { name, price, minPrepTime, maxPrepTime, maxPossibleOrders, storeId } = menuData;
+export const createMenu = async (menuData: any, files?: Express.Multer.File[]) => {
+    // Validate request data
+    validateMenuRequest(menuData);
 
-    // Validate required fields
-    if (!name || price === undefined || minPrepTime === undefined || maxPrepTime === undefined || maxPossibleOrders === undefined || !storeId) {
-        throw { status: 400, message: "Required fields missing. Please provide name, price, minPrepTime, maxPrepTime, maxPossibleOrders, and storeId" };
-    }
-
-    // Business validations
-    if (minPrepTime > maxPrepTime) {
-        throw { status: 400, message: "Minimum preparation time cannot be greater than maximum preparation time" };
-    }
-    if (price < 0 || maxPossibleOrders < 0) {
-        throw { status: 400, message: "Price and maxPossibleOrders must be positive numbers" };
-    }
+    // Upload menu images
+    await uploadImages(menuData, files);
 
     // Ensure default values for optional fields
     const dataToSave = {
@@ -30,26 +25,7 @@ export const createMenu = async (menuData: any) => {
     // Create menu item in the database
     const newMenu = await menuRepository.createMenu(dataToSave);
 
-    // Prepare and send webhook
-    const webhookData: any = {
-        menu: {
-            posMenuId: newMenu._id,
-            name: newMenu.name,
-            description: newMenu.description,
-            price: newMenu.price,
-            minPrepTime: newMenu.minPrepTime,
-            maxPrepTime: newMenu.maxPrepTime,
-            maxPossibleOrders: newMenu.maxPossibleOrders,
-            available: newMenu.available,
-            images: newMenu.images,
-            tags: newMenu.tags,
-            dietary: newMenu.dietary,
-            category: newMenu.category,
-            storeId: storeId,
-        },
-        channelId: menuData.channelId,
-        action: "create"
-    };
+    const webhookData = generatePayloadForWebhook(newMenu, menuData.storeId, menuData.channelId, "create");
     webhookService.sendNewMenuWebHook(webhookData);
 
     return newMenu;
@@ -71,25 +47,7 @@ export const updateMenu = async (id: string, updateData: any) => {
     }
 
     // Prepare and send webhook
-    const webhookData: any = {
-        menu: {
-            posMenuId: updatedMenu._id,
-            name: updatedMenu.name,
-            description: updatedMenu.description,
-            price: updatedMenu.price,
-            minPrepTime: updatedMenu.minPrepTime,
-            maxPrepTime: updatedMenu.maxPrepTime,
-            maxPossibleOrders: updatedMenu.maxPossibleOrders,
-            available: updatedMenu.available,
-            images: updatedMenu.images,
-            tags: updatedMenu.tags,
-            dietary: updatedMenu.dietary,
-            category: updatedMenu.category,
-            storeId: updatedMenu.storeId,
-        },
-        channelId: updateData.channelId,
-        action: "update"
-    };
+    const webhookData = generatePayloadForWebhook(updatedMenu, updateData.storeId, updateData.channelId, "update");
     webhookService.sendUpdatedMenuWebHook(webhookData);
 
     return updatedMenu;
