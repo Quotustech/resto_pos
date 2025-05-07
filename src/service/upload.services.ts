@@ -6,14 +6,13 @@ export const uploadImages = async (menuData: any, files?: Express.Multer.File[])
             const uploadedImageUrls: any = await uploadMultipleImages(files, 'restom-menu-images');
 
             // If menu already has images array
-            if (Array.isArray(menuData?.images)) {
-                menuData.images = [...menuData.images, ...uploadedImageUrls];
-            } else {
-                menuData.images = uploadedImageUrls;
-            }
+            menuData.images = Array.isArray(menuData.images)
+                ? [...menuData.images, ...uploadedImageUrls]
+                : uploadedImageUrls;
+
         } catch (error: any) {
             console.error('Error processing menu images:', error);
-            // Continue without the images if upload fails
+            menuData.images = [];
         }
     }
 }

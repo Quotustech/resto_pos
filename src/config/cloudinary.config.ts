@@ -31,8 +31,7 @@ export const uploadStream = (fileBbuffer: Buffer, folder: string): Promise<Cloud
         );
 
         // Create a readable stream from buffer and pipe to Cloudinary
-        const readableStream = streamifier.createReadStream(fileBbuffer);
-        readableStream.pipe(uploadStream);
+        streamifier.createReadStream(fileBbuffer).pipe(uploadStream);
     });
 };
 
@@ -43,13 +42,10 @@ export const uploadMultipleImages = async (files: Express.Multer.File[], folder:
     try {
         const uploadPromises = files.map(file => uploadStream(file.buffer, folder));
         const results = await Promise.all(uploadPromises);
-
-        // Return just the URLs as the schema expects an array of strings
         return results.map(result => result.secure_url);
     } catch (error: any) {
         console.error('Error uploading multiple images:', error);
-        throw error.message; // You can customize this error handling as needed
-        // throw ApiError.internal('Failed to upload menu images', ERROR_CODES.IMAGE_UPLOAD_FAILED);
+        throw error.message; 
     }
 };
 
