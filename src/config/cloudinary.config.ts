@@ -17,10 +17,10 @@ export const cloudinaryConfig = cloudinary.config({
 /**
  * Upload a single image to Cloudinary
  */
-export const uploadStream = (fileBbuffer: Buffer, folder: string): Promise<CloudinaryUploadResponse> => {
+export const uploadSingleImage = (fileBbuffer: Buffer, folder: string): Promise<CloudinaryUploadResponse> => {
     return new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-            { folder, resource_type: 'auto' },
+            { folder, resource_type: 'auto', timeout: 10000 },
             (error, result) => {
                 if (error) return reject(error);
                 resolve({
@@ -40,7 +40,7 @@ export const uploadStream = (fileBbuffer: Buffer, folder: string): Promise<Cloud
  */
 export const uploadMultipleImages = async (files: Express.Multer.File[], folder: string): Promise<string[] | undefined> => {
     try {
-        const uploadPromises = files.map(file => uploadStream(file.buffer, folder));
+        const uploadPromises = files.map(file => uploadSingleImage(file.buffer, folder));
         const results = await Promise.all(uploadPromises);
         return results.map(result => result.secure_url);
     } catch (error: any) {
